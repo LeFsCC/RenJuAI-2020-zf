@@ -1,0 +1,13 @@
+﻿  createmoves.cpp
+  define.cpp
+  evaluate.cpp
+  gameover.cpp
+  makemove.cpp
+  printchessboard.cpp
+  searchmove.cpp
+  start.cpp
+  正在生成代码
+  Previous IPDB not found, fall back to full compilation.
+  All 16 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  renju.vcxproj -> F:\work\选题一\renju\Release\renju.exe
