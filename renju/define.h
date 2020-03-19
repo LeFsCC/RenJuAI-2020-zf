@@ -8,6 +8,7 @@
 #include <string>
 #include <math.h>
 #include <iostream>
+#include<vector>
 #include <algorithm>
 #include <ctime>
 using namespace std;
@@ -17,26 +18,20 @@ using namespace std;
 #define white 2		//白方
 #define inf 1000000		
 #define inboard(a,b) (a>0 && a<=15 && b>0 && b<=15)		//用于检验招法是否在棋盘上
-
-#define GRID_NUM 16	//棋盘规模	
+#define GRID_NUM 16	//棋盘规模
 extern int chessBoard[GRID_NUM][GRID_NUM]; //棋盘
-bool gameover(struct point node, int player); //判断是否游戏结束
 struct point
 {
-	int status;//1黑2白0无子
-	int xpoint;
-	int ypoint;
-	int prexpoint;
-	int preypoint;
+	int x, y;
+	int flag;//0空1黑2白
+	int value;//记录估值
+	void get(int xf, int yf, int flagf) {
+		x = xf; y = yf; flag = flagf;
+	}
 };
-struct chessline
-{
-	point startpoint;
-	point endpoint;
-	int length;
-	int type;//1黑子 2白子
-	int effectlevel;
-};
+vector<string> split(const string& s, const string& seperator);
+int getLine(point p, int i, int j);
+bool gameover(point node); //判断是否游戏结束
 #endif
 
 
