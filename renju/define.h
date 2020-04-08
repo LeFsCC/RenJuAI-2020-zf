@@ -17,16 +17,18 @@ using namespace std;
 #define black 1		//黑方
 #define white 2		//白方
 #define inf 1000000		
+#define MIN 0
 #define inboard(a,b) (a>0 && a<=15 && b>0 && b<=15)		//用于检验招法是否在棋盘上
 #define GRID_NUM 16	//棋盘规模
+
 extern int chessBoard[GRID_NUM][GRID_NUM]; //棋盘
 struct point
 {
 	int x, y;
-	int flag;//0空1黑2白
-	int value;//记录估值
-	void get(int xf, int yf, int flagf) {
-		x = xf; y = yf; flag = flagf;
+	int point_type;//0空1黑2白
+	int value;     //记录估值
+	void get(int xf, int yf, int pointType) {
+		x = xf; y = yf; point_type = pointType;
 	}
 };
 vector<string> split(const string& s, const string& seperator);

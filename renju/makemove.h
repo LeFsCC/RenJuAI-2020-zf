@@ -4,8 +4,8 @@
 
 #include "define.h"
 
-bool makeMove();//执行走法
+bool makeMove(point pt, int plyer);//执行走法
 
-void unMakeMove();//撤销走法
+void unMakeMove(point pt, int plyer);//撤销走法
 
 #endif

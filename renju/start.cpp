@@ -3,9 +3,12 @@
 #include "printchessboard.h"
 #include "makemove.h"
 #include "evaluate.h"
+
+
 int main()
 {
-	bool flag = false;
+	int plyer_point_type = black; // 玩家的棋子颜色，1为黑，2为白, 默认为黑
+	bool game_on = false;         // 游戏是否开始
 	while (true)
 	{
 		system("cls");
@@ -17,45 +20,42 @@ int main()
 		string str;
 		getline(cin, str);	
 		vector<string> v = split(str, " ");
-		if (v[0] == "newblack")
-		{
 
+		if (v[0] == "newblack" && !game_on) {
+			plyer_point_type = white;
+			game_on = true;
+			chessBoard[7][7] = 3 - plyer_point_type;     // 电脑先手第一步默认下到中间位置
 		}
-		else if (v[0] == "newwhite")
-		{
-
+		else if (v[0] == "newwhite" && !game_on) {
+			game_on = true;
 		}
-		else if (v[0] == "move")
-		{
+		else if (v[0] == "move") {
 			int x = stoi(v[1]), y = stoi(v[2]);
-			if (inboard(x,y)&&chessBoard[x][y]==0)
+			if (inboard(x,y) && chessBoard[x][y] == 0)
 			{
-				chessBoard[x][y] = flag + 1;
-				//cout << chessBoard[x][y] << endl;
+				// 选手下棋
+				chessBoard[x][y] = plyer_point_type;
 				point newchess;
-				newchess.get(x, y, flag + 1);
-				//cout << evaluate(newchess);
-				if (gameover(newchess))
-				{
-					cout << "winner: ";
-					if (flag)
-						cout << "●!" << endl;
-					else
-						cout << "○!" << endl;
-					break;
+				newchess.get(x, y, plyer_point_type);
 
+				if (gameover(newchess)) {
+					cout << "you win!";
+					break;
 				}
-				flag = !flag;
+				// 电脑下棋, 搜索4层
+				point compt = mkdecision(3 - plyer_point_type, 10);
+				if (gameover(compt))  {
+					cout << "computer win";
+					break;
+				}
 			}
-			else
-			{
+			else {
 				cout << "请在棋盘空白处下棋" << endl;
 			}
+
 		}
-		else
-		{
+		else {
 			break;
 		}
 	}
-	
 }

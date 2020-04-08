@@ -107,10 +107,10 @@ int Evaluate(point p, int me, int plyer) { // me:我的代号  plyer:当前计算的playe
     return value;
 }
 
-int evaluate(point& p)//估值算法，返回估值
+int evaluate(point& p) //估值算法，返回估值
 {
     int origin_flag = chessBoard[p.x][p.y];
-    chessBoard[p.x][p.y] = p.flag;
+    chessBoard[p.x][p.y] = p.point_type;
     p.value = Evaluate(p, 1, 1) + Evaluate(p, 1, 2);
     chessBoard[p.x][p.y] = origin_flag;
     return  p.value;
