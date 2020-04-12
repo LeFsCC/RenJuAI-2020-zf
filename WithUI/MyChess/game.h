@@ -10,6 +10,7 @@ public:
     bool judge_is_blank(int x,int y);
     void peoplePutDown(int x,int y);
     point computerPutDown();
+    void clear_board();
     int player;
 };
 

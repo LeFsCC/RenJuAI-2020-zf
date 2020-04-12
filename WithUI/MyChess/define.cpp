@@ -1,7 +1,7 @@
 #include "define.h"
 #include <QDebug>
 
-int chessBoard[GRID_NUM][GRID_NUM];//定义棋盘
+int chessBoard[GRID_NUM][GRID_NUM];
 
 vector<string> split(const string& s, const string& seperator) {
     vector<string> result;
@@ -9,7 +9,6 @@ vector<string> split(const string& s, const string& seperator) {
     string_size i = 0;
 
     while (i != s.size()) {
-        //找到字符串中首个不等于分隔符的字母；
         int flag = 0;
         while (i != s.size() && flag == 0) {
             flag = 1;
@@ -21,7 +20,6 @@ vector<string> split(const string& s, const string& seperator) {
                 }
         }
 
-        //找到又一个分隔符，将两个分隔符之间的字符串取出；
         flag = 0;
         string_size j = i;
         while (j != s.size() && flag == 0) {
@@ -41,7 +39,7 @@ vector<string> split(const string& s, const string& seperator) {
     return result;
 }
 
-int getLine(point p, int i, int j) { // i:方向 j:相对p的顺序值（以p为0） p:当前点
+int getLine(point p, int i, int j) {
     int x = p.x, y = p.y;
     switch (i) {
     case 1:
@@ -77,7 +75,7 @@ int getLine(point p, int i, int j) { // i:方向 j:相对p的顺序值（以p为
     //cout << "Not in board" <<x<<" "<<y<< endl;
     return -1;
 }
-bool gameover(point node)//判断是否游戏结束
+bool gameover(point node)
 {
     for (int i = 1; i <= 8; i++) {
         int num = 1;

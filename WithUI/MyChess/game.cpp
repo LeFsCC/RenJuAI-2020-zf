@@ -21,5 +21,15 @@ void game::peoplePutDown(int x,int y)
 }
 point game::computerPutDown()
 {
-    return mkdecision(player++%2+1, 10);
+    return mkdecision(player++%2+1, 3);
+}
+
+void game::clear_board()
+{
+    for(int i = 0;i < GRID_NUM; i++) {
+        for(int j = 0; j < GRID_NUM; j++) {
+            chessBoard[i][j] = 0;
+        }
+    }
+    player = 0;
 }

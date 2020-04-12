@@ -19,6 +19,21 @@ GameWindow::GameWindow(QWidget *parent) :
     palette.setColor(QPalette::Background,QColor("#B1723C"));
     this->setPalette(palette);
     mouseflag=false;
+
+    menubar = new QMenuBar(this);
+    act[0] = new QAction("restart", this);
+    act[1] = new QAction("back(at most 1 step)", this);
+    act[2] = new QAction("replay", this);
+    menu[0] = new QMenu("options",this);
+    menu[0]->addAction(act[0]);
+    menu[0]->addAction(act[1]);
+    menu[0]->addAction(act[2]);
+    menubar->addMenu(menu[0]);
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateplaying()));
+
+    connect(menubar,SIGNAL(triggered(QAction*)),this,SLOT(trigerMenu(QAction*)));
+
     setMouseTracking(true);
 }
 
@@ -37,16 +52,73 @@ int GameWindow::judgeWhoFirst()
 }
 void GameWindow::youFirst()
 {
+    firstput = 0;
     game.computerColor=2;
     mouseflag=true;
 }
 
 void GameWindow::computerFirst()
 {
+    firstput = 1;
     game.computerColor=1;
     chessBoard[7][7]=1;
     game.player++;
     mouseflag=true;
+}
+
+void GameWindow::trigerMenu(QAction* act)
+{
+    qDebug() << "come in" << endl;
+    if(act->text() == "restart")
+    {
+        game.clear_board();
+        this->close();
+        MainWindow *win = new MainWindow;
+        win->show();
+        update();
+        return;
+    }
+    else if(act->text() == "back(at most 1 step)")
+    {
+        point compt = this->lastcomputerchessmem;
+        point plypt = this->lastplyerchessmem;
+        if(chessBoard[compt.x][compt.y] == 0 || chessBoard[plypt.x][plypt.y] == 0) {
+            return;
+        }
+        chessBoard[compt.x][compt.y] = 0;
+        chessBoard[plypt.x][plypt.y] = 0;
+        plyermem.pop_back();
+        compmem.pop_back();
+        update();
+    }
+    else if(act->text() == "replay")
+    {
+        game.clear_board();
+        timer->start(1000);
+    }
+}
+
+void GameWindow::updateplaying()
+{
+    if(plyermem.size() == 0 && compmem.size() == 0){
+        return;
+    }
+    if(this->firstput % 2 == 0)
+    {
+        point pt = plyermem[0];
+        qDebug() << pt.x << " " << pt.y << " " << pt.value << endl;
+        chessBoard[pt.x][pt.y]= pt.point_type;
+        plyermem.pop_front();
+    }
+    else
+    {
+        point pt = compmem[0];
+        qDebug() << pt.x << " " << pt.y << " " << pt.value << endl;
+        chessBoard[pt.x][pt.y]= pt.point_type;
+        compmem.pop_front();
+    }
+    this->firstput += 1;
+    update();
 }
 
 void GameWindow::mouseReleaseEvent(QMouseEvent* event)
@@ -64,14 +136,18 @@ void GameWindow::mouseReleaseEvent(QMouseEvent* event)
                 currentX=x;
                 currentY=y;
                 update();
-                //qDebug()<<x<<" "<<y<<" "<<chessBoard[x][y]<<endl;
                 point newchess;
                 newchess.get(x, y, chessBoard[x][y]);
+
+                this->plyerchessmem = this->lastplyerchessmem;
+                this->lastplyerchessmem = newchess;
+                this->plyermem.append(newchess);
+
                 if (gameover(newchess)) {
                     if((game.player-1)%2)
-                        QMessageBox::about(this,QStringLiteral("游戏结束"),QStringLiteral("白子胜"));
+                        QMessageBox::about(this,QStringLiteral("game over"),QStringLiteral("white win"));
                     else
-                        QMessageBox::about(this,QStringLiteral("游戏结束"),QStringLiteral("黑子胜"));
+                        QMessageBox::about(this,QStringLiteral("game over"),QStringLiteral("black win"));
                     mouseflag=false;
                     return;
                 }
@@ -81,27 +157,33 @@ void GameWindow::mouseReleaseEvent(QMouseEvent* event)
                     point poinst=game.computerPutDown();
                     currentX=poinst.x;
                     currentY=poinst.y;
+                    this->computerchessmem = this->lastcomputerchessmem;
+                    this->lastcomputerchessmem = poinst;
+                    this->compmem.append(poinst);
+
                     //qDebug()<<currentX<<" "<<currentY<<" "<<chessBoard[currentX][currentY]<<endl;
                     update();
                     mouseflag=true;
                     if (gameover(poinst)) {
                         if((game.player-1)%2)
-                            QMessageBox::about(this,QStringLiteral("游戏结束"),QStringLiteral("白子胜"));
+                            QMessageBox::about(this,QStringLiteral("game over"),QStringLiteral("white win"));
                         else
-                            QMessageBox::about(this,QStringLiteral("游戏结束"),QStringLiteral("黑子胜"));
+                            QMessageBox::about(this,QStringLiteral("game over"),QStringLiteral("black win"));
                         mouseflag=false;
                         return;
                     }
                 }
             }
             else
-                QMessageBox::information(this,QStringLiteral(""),QStringLiteral("请在空白处落子"),QMessageBox::Ok);
+                QMessageBox::information(this,QStringLiteral(""),QStringLiteral("move on blank position"),QMessageBox::Ok);
         }
         else
-            QMessageBox::information(this,QStringLiteral(""),QStringLiteral("请在棋盘内落子"),QMessageBox::Ok);
+            QMessageBox::information(this,QStringLiteral(""),QStringLiteral("move on board"),QMessageBox::Ok);
         update();
     }
 }
+
+
 void GameWindow::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -120,8 +202,8 @@ void GameWindow::paintEvent(QPaintEvent *)
     painter.setPen(pen);
     for(int i=0;i<15;i++)
         {
-            painter.drawLine(40+i*40,60,40+i*40,620);//纵线
-            painter.drawLine(40,60+i*40,600,60+i*40);//横线
+            painter.drawLine(40+i*40,60,40+i*40,620);
+            painter.drawLine(40,60+i*40,600,60+i*40);
         }
     brush.setColor(Qt::black);
     painter.setBrush(brush);

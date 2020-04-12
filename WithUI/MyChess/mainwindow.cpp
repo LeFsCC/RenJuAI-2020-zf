@@ -29,9 +29,8 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    //qDebug()<<"yes"<<endl;
     this->close();
-    GameWindow* pvc=new GameWindow;
+    GameWindow* pvc= new GameWindow;
     QMessageBox::StandardButton r = QMessageBox::question(this, "选择先手", "是否玩家先手", QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
     if (r == QMessageBox::Yes) {
         pvc->youFirst();
@@ -40,5 +39,4 @@ void MainWindow::on_pushButton_2_clicked()
         pvc->computerFirst();
     }
     pvc->show();
-//    qDebug()<<ret;
 }

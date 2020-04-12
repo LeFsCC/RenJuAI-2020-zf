@@ -2,7 +2,7 @@
 #define _CREATEMOVES_
 #include "define.h"
 
-//走法生成器
+//creatmoves
 
 bool suit_position(point);
 

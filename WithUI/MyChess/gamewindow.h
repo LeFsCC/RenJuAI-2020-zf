@@ -3,6 +3,12 @@
 
 #include <QMainWindow>
 #include <QMouseEvent>
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
+#include <QVector>
+#include <QLabel>
+#include <QTimer>
 #include "game.h"
 #include "define.h"
 namespace Ui {
@@ -24,6 +30,10 @@ public:
     void computerFirst();
     bool pvp_flag;
 
+public slots:
+    void trigerMenu(QAction* act);
+    void updateplaying();
+
 private:
     Ui::GameWindow *ui;
     int currentX;
@@ -31,7 +41,23 @@ private:
     int moveX;
     int moveY;
     bool mouseflag;
+    QMenu *menu[2];
+    QAction *act[3];
+    QMenuBar *menubar;
+    QTimer *timer;
+
     game game;
+    point lastplyerchessmem;
+    point lastcomputerchessmem;
+
+    point plyerchessmem;
+    point computerchessmem;
+
+    QVector<point> plyermem;
+    QVector<point> compmem;
+    int firstput = 0;   // 0 means player fisrt, 1 means computer first.
+
+
 };
 
 #endif // GAMEWINDOW_H
