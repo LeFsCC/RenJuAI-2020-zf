@@ -12,6 +12,7 @@ public:
     point computerPutDown();
     void clear_board();
     int player;
+    int degree;
 };
 
 #endif // GAME_H

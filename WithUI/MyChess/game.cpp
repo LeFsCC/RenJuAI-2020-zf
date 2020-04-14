@@ -7,6 +7,7 @@
 game::game()
 {
     player=0;
+    degree = 1;
 }
 bool game::judge_is_blank(int x, int y)
 {
@@ -15,13 +16,14 @@ bool game::judge_is_blank(int x, int y)
     else
         return false;
 }
+
 void game::peoplePutDown(int x,int y)
 {
     chessBoard[x][y]=player++%2+1;
 }
 point game::computerPutDown()
 {
-    return mkdecision(player++%2+1, 3);
+    return mkdecision(player++%2+1, this->degree);
 }
 
 void game::clear_board()

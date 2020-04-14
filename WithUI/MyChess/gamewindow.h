@@ -29,6 +29,8 @@ public:
     void youFirst();
     void computerFirst();
     bool pvp_flag;
+    void setMode(bool whofirst);
+    void setDiff(int degree);
 
 public slots:
     void trigerMenu(QAction* act);

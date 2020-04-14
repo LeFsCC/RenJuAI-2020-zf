@@ -20,20 +20,8 @@ GameWindow::GameWindow(QWidget *parent) :
     this->setPalette(palette);
     mouseflag=false;
 
-    menubar = new QMenuBar(this);
-    act[0] = new QAction("restart", this);
-    act[1] = new QAction("back(at most 1 step)", this);
-    act[2] = new QAction("replay", this);
-    menu[0] = new QMenu("options",this);
-    menu[0]->addAction(act[0]);
-    menu[0]->addAction(act[1]);
-    menu[0]->addAction(act[2]);
-    menubar->addMenu(menu[0]);
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateplaying()));
-
-    connect(menubar,SIGNAL(triggered(QAction*)),this,SLOT(trigerMenu(QAction*)));
-
     setMouseTracking(true);
 }
 
@@ -50,6 +38,36 @@ int GameWindow::judgeWhoFirst()
     box.setButtonText (QMessageBox::No,QString(QStringLiteral("4")));
     return box.exec();
 }
+
+void GameWindow::setMode(bool whofirst){
+    this->pvp_flag = whofirst;
+    if(!pvp_flag){
+        menubar = new QMenuBar(this);
+        act[0] = new QAction("restart", this);
+        act[1] = new QAction("back(at most 1 step)", this);
+        act[2] = new QAction("replay", this);
+        menu[0] = new QMenu("options",this);
+        menu[0]->addAction(act[0]);
+        menu[0]->addAction(act[1]);
+        menu[0]->addAction(act[2]);
+        menubar->addMenu(menu[0]);
+        connect(menubar,SIGNAL(triggered(QAction*)),this,SLOT(trigerMenu(QAction*)));
+    }
+    else{
+        menubar = new QMenuBar(this);
+        act[0] = new QAction("restart", this);
+        menu[0] = new QMenu("options",this);
+        menu[0]->addAction(act[0]);
+        menubar->addMenu(menu[0]);
+        connect(menubar,SIGNAL(triggered(QAction*)),this,SLOT(trigerMenu(QAction*)));
+    }
+}
+
+void GameWindow::setDiff(int degree){
+    this->game.degree = degree;
+}
+
+
 void GameWindow::youFirst()
 {
     firstput = 0;
@@ -68,17 +86,17 @@ void GameWindow::computerFirst()
 
 void GameWindow::trigerMenu(QAction* act)
 {
-    qDebug() << "come in" << endl;
     if(act->text() == "restart")
     {
         game.clear_board();
+        this->timer->stop();
         this->close();
         MainWindow *win = new MainWindow;
         win->show();
         update();
         return;
     }
-    else if(act->text() == "back(at most 1 step)")
+    else if(act->text() == "back(at most 1 step)" && mouseflag)
     {
         point compt = this->lastcomputerchessmem;
         point plypt = this->lastplyerchessmem;
@@ -157,11 +175,12 @@ void GameWindow::mouseReleaseEvent(QMouseEvent* event)
                     point poinst=game.computerPutDown();
                     currentX=poinst.x;
                     currentY=poinst.y;
+                    qDebug()<<poinst.x << " " << poinst.y << endl;
+
+
                     this->computerchessmem = this->lastcomputerchessmem;
                     this->lastcomputerchessmem = poinst;
                     this->compmem.append(poinst);
-
-                    //qDebug()<<currentX<<" "<<currentY<<" "<<chessBoard[currentX][currentY]<<endl;
                     update();
                     mouseflag=true;
                     if (gameover(poinst)) {

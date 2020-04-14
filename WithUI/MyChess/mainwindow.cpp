@@ -23,7 +23,7 @@ void MainWindow::on_pushButton_clicked()
     this->close();
     GameWindow* pvc=new GameWindow;
     pvc->youFirst();
-    pvc->pvp_flag=true;
+    pvc->setMode(true);
     pvc->show();
 }
 
@@ -31,11 +31,24 @@ void MainWindow::on_pushButton_2_clicked()
 {
     this->close();
     GameWindow* pvc= new GameWindow;
+    pvc->setMode(false);
     QMessageBox::StandardButton r = QMessageBox::question(this, "选择先手", "是否玩家先手", QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
     if (r == QMessageBox::Yes) {
+        QMessageBox::StandardButton t = QMessageBox::question(this, "choose difficulty", "hard：yes, simple：no", QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+        if(t == QMessageBox::Yes) {
+            pvc->setDiff(5);
+        } else {
+            pvc->setDiff(1);
+        }
         pvc->youFirst();
     }
     else {
+        QMessageBox::StandardButton t = QMessageBox::question(this, "choose difficulty", "hard：yes, simple：no", QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+        if(t == QMessageBox::Yes) {
+            pvc->setDiff(5);
+        } else {
+            pvc->setDiff(1);
+        }
         pvc->computerFirst();
     }
     pvc->show();
