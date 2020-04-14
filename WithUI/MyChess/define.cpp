@@ -77,9 +77,9 @@ int getLine(point p, int i, int j) {
 }
 bool gameover(point node)
 {
-    for (int i = 1; i <= 8; i++) {
-        int num = 1;
-        for (int j = 1; j <= 4; j++) {
+    for (int i = 1; i <= 4; i++) {
+        int num = 0;
+        for (int j = -4; j <= 4; j++) {
             if (getLine(node,i,j) == node.point_type) {
                 num += 1;
             }
@@ -89,7 +89,7 @@ bool gameover(point node)
             //qDebug()<<getLine(node,i,j)<<" "<<node.point_type<<endl;
         }
         //qDebug()<<num<<endl;
-        if (num == 5) {
+        if (num >= 5) {
             return true;
         }
     }

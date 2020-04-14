@@ -124,14 +124,14 @@ void GameWindow::updateplaying()
     if(this->firstput % 2 == 0)
     {
         point pt = plyermem[0];
-        qDebug() << pt.x << " " << pt.y << " " << pt.value << endl;
+//        qDebug() << pt.x << " " << pt.y << " " << pt.value << endl;
         chessBoard[pt.x][pt.y]= pt.point_type;
         plyermem.pop_front();
     }
     else
     {
         point pt = compmem[0];
-        qDebug() << pt.x << " " << pt.y << " " << pt.value << endl;
+//        qDebug() << pt.x << " " << pt.y << " " << pt.value << endl;
         chessBoard[pt.x][pt.y]= pt.point_type;
         compmem.pop_front();
     }
