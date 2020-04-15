@@ -15,8 +15,8 @@ using namespace std;
 
 #define inf 1000000
 #define MIN 0
-#define inboard(a,b) (a>0 && a<=15 && b>0 && b<=15)		// check if the chess is on the board
-#define GRID_NUM 16	// chess board scale
+#define inboard(a,b) (a>=0 && a<15 && b>=0 && b<15)		// check if the chess is on the board
+#define GRID_NUM 15	// chess board scale
 
 extern int chessBoard[GRID_NUM][GRID_NUM]; // chess board
 struct point

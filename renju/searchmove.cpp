@@ -4,6 +4,7 @@
 #include "evaluate.h"
 #include "printchessboard.h"
 #include "searchmove.h"
+#include <ctime>
 
 point mkdecision(int plyer, int depth) // computer decision
 {
