@@ -43,7 +43,7 @@ int main()
 					break;
 				}
 				// µçÄÔÏÂÆå, ËÑË÷4²ã
-				point compt = mkdecision(3 - plyer_point_type, 10);
+				point compt = mkdecision(3 - plyer_point_type, 2);
 				if (gameover(compt))  {
 					cout << "computer win";
 					break;

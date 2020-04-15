@@ -72,7 +72,7 @@ int search_max(int plyer, point pt, int depth, int alpha, int beta) {
         point tpt;
         tpt.get(apts[i].x, apts[i].y, 0);
         chessBoard[tpt.x][tpt.y] = plyer;
-        int v = search_max(plyer, tpt, depth - 1, alpha, best > beta ? best : beta);
+        int v = search_min(plyer, tpt, depth - 1, alpha, best > beta ? best : beta);
         chessBoard[tpt.x][tpt.y] = 0;
         if (v > best)
             best = v;

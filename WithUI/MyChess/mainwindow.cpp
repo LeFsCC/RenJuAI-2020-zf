@@ -36,7 +36,7 @@ void MainWindow::on_pushButton_2_clicked()
     if (r == QMessageBox::Yes) {
         QMessageBox::StandardButton t = QMessageBox::question(this, "choose difficulty", "hard：yes, simple：no", QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
         if(t == QMessageBox::Yes) {
-            pvc->setDiff(5);
+            pvc->setDiff(2);
         } else {
             pvc->setDiff(1);
         }
@@ -45,7 +45,7 @@ void MainWindow::on_pushButton_2_clicked()
     else {
         QMessageBox::StandardButton t = QMessageBox::question(this, "choose difficulty", "hard：yes, simple：no", QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
         if(t == QMessageBox::Yes) {
-            pvc->setDiff(5);
+            pvc->setDiff(2);
         } else {
             pvc->setDiff(1);
         }

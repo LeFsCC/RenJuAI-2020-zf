@@ -19,7 +19,7 @@ vector<point> createMoves() // generate a set of all available moves.
 	}
 	return availMoves;
 }
-
+ 
 bool suit_position(point pt) // available position if has neighbors in 3 steps
 {
 	for (int i = 1; i <= 8; i++) {
