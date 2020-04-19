@@ -10,14 +10,11 @@ bool makeMove(point pt, int plyer)
 	chessBoard[pt.x][pt.y] = plyer;
 	return true;
 }
-
-// 撤子，允许撤三步
 bool unMakeMove(point pt, int plyer)
 {
 	if (chessBoard[pt.x][pt.y] == 0) {
 		return false;
 	}
 	chessBoard[pt.x][pt.y] = 0;
-	//撤销落子操作（chessboard[i][j]=0）
 	return true;
 }

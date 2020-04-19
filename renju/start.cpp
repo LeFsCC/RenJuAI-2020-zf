@@ -11,7 +11,7 @@ int main()
 	bool game_on = false;         // 游戏是否开始
 	while (true)
 	{
-		system("cls");
+		/*system("cls");*/
 		cout << "*************五子棋人机对弈AI*************" << endl;
 		cout << "输入: newblack  电脑先手" << endl;
 		cout << "输入: newwhite  电脑后手" << endl;
@@ -42,8 +42,8 @@ int main()
 					cout << "you win!";
 					break;
 				}
-				// 电脑下棋, 搜索4层
-				point compt = mkdecision(3 - plyer_point_type, 2);
+				// 电脑下棋
+				point compt = mkdecision(3 - plyer_point_type, 4);
 				if (gameover(compt))  {
 					cout << "computer win";
 					break;
